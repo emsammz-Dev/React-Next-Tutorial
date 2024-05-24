@@ -1,5 +1,6 @@
-export default function Page(){
+export default async function Page(){
     return(
-        <h1>Invoice Page</h1>
+        await new Promise((resolve) => setTimeout(resolve, 3000))
     )
+
 }
