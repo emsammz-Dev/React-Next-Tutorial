@@ -18,10 +18,12 @@ export default async function Page({
     };
 }) {
 
-    const query = searchParams?.query || " ";
-    const currentPage = Number(searchParams?.page || 1);
+    const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
 
-    const totalPages = fetchInvoicesPages(query);
+    /* await is very important here object returning from the database as promise **** */
+    const totalPages = await fetchInvoicesPages(query);
+
 
   return (
     <div className="w-full">
@@ -32,12 +34,13 @@ export default async function Page({
         <Search placeholder="Search invoices..." />
         <CreateInvoice />
       </div>
+      <div className="mt-5 flex w-full justify-end">
+        <Pagination totalPages={totalPages} />
+      </div>
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={Number(totalPages)} />
-      </div>
+      
     </div>
   );
 }

@@ -1,32 +1,34 @@
 'use client';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { Query } from '@vercel/postgres';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function Search({ placeholder }: { placeholder: string }) {
-  const searchParam = useSearchParams();
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term: string) =>{
  /*    console.log(`searching....${term}`); */
-    const param = new URLSearchParams(searchParam);
-    param.set('page','1');
+    const params = new URLSearchParams(searchParams);
+    params.set('page','1');
+    
     if (term) {
-      param.set('query', term);
+      params.set('query', term);
     } else {
-      param.delete('query');
+      params.delete('query');
     }
-    replace(`${pathname}?${param.toString()}`);
+    replace(`${pathname}?${params.toString()}`);
   },300);
 
   return (
     <div className="relative flex flex-1 flex-shrink-0">
-      <label htmlFor="search" className="sr-only">
+      
+      {/* <label htmlFor="search" className="sr-only" id={placeholder}>
         Search
-      </label>
+      </label> */}
+
       <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
 
       <input
@@ -35,7 +37,8 @@ export default function Search({ placeholder }: { placeholder: string }) {
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
-        defaultValue={searchParam.get('query')?.toString()}
+        defaultValue={searchParams.get('query')?.toString()}
+        name='searchCustomers'
       />
     </div>
   );

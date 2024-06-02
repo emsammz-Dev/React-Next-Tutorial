@@ -6,7 +6,9 @@ import CardWrapper from '@/app/ui/dashboard/cards';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 
 
+
 export default async function Page() {
+  
 
   return (
     <main>

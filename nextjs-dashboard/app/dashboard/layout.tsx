@@ -1,6 +1,19 @@
 import SideNav from '@/app/ui/dashboard/sidenav';
+
+import { redirect } from 'next/navigation';
+
+/* kinde libraries */
+import {getKindeServerSession} from '@kinde-oss/kinde-auth-nextjs/server';
+
  
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const {isAuthenticated} = getKindeServerSession();
+
+  const isLoggedIn = await isAuthenticated();
+  
+  if(!isLoggedIn){
+    redirect('/api/auth/login');
+  }
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
       <div className="w-full flex-none md:w-64">

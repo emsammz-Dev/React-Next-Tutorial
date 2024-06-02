@@ -1,5 +1,8 @@
 export default function Page(){
     return(
-        <h1>Customers Page</h1>
+        <div className="flex flex-row">
+                <p>h</p>
+                <p>hello</p>
+        </div>
     )
 }
